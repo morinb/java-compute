@@ -27,6 +27,13 @@ public abstract class DelegateFunction {
 		this.nbArgs = nbArgs;
 	}
 
+	/**
+	 * Make the computation describe by the implementing class.
+	 * It takes nbArgs arguments defined by the constructor.
+	 * @param args The arguments passed to the function.
+	 * @return The result of the computation.
+	 * @throws MathematicalAnalysisException
+	 */
 	public abstract String compute(String... args)
 			throws MathematicalAnalysisException;
 

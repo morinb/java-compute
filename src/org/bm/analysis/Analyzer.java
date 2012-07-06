@@ -18,9 +18,6 @@ import org.bm.analysis.exception.MathematicalAnalysisException;
  * the License.
  * 
  * 
- * Describe an operator, with its String representation, its precedence, and if
- * it is left-associative or not.
- * 
  * @author morinb
  * 
  */

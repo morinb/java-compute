@@ -143,6 +143,45 @@ public enum Operator {
 		}
 	}),
 	/**
+	 * The modulo operator.
+	 */
+	MODULO("%", 100, true, 2, new DelegateFunction(2) {
+		@Override
+		public String compute(String... args)
+				throws MathematicalAnalysisException {
+			if (args == null) {
+				throw new MathematicalAnalysisException(
+						"MODULO: Args must not be null");
+			}
+			if (args.length != nbArgs) {
+				throw new MathematicalAnalysisException(
+						"MODULO: function needs " + nbArgs
+								+ " exactly argument(s).");
+			}
+
+			// As the stack stores in LIFO mode, the 2nd parameter is popped
+			// first.
+			String arg2 = args[0];
+			String arg1 = args[1];
+			Double d1 = null;
+			Double d2 = null;
+			try {
+				d1 = Double.parseDouble(arg1);
+				d2 = Double.parseDouble(arg2);
+			} catch (NumberFormatException e) {
+				throw new MathematicalAnalysisException(
+						"MODULO: the arguments must be Numbers.", e);
+			}
+
+			Double d = null;
+			if (null != d1 & null != d2) {
+				d = d1 % d2;
+			}
+
+			return d.toString();
+		}
+	}),
+	/**
 	 * The division operator.
 	 */
 	DIVISION("/", 100, true, 2, new DelegateFunction(2) {

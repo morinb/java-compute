@@ -69,7 +69,7 @@ public class RPNParserTestCase extends TestCase {
 		func.put("exp", 1);
 		func.put("ln", 1);
 
-		RPNParser algo = RPNParserFactory.getParser(true, map);
+		RPNParser algo = RPNParserFactory.getParser(false, map);
 		String resultat = algo.parse(calcul);
 		assertEquals(wanted, resultat);
 		if (logger.isInfoEnabled()) {
