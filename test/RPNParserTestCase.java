@@ -52,8 +52,8 @@ public class RPNParserTestCase extends TestCase {
 	}
 
 	public void testSYAlgo() {
-		String wanted = "0 3 - x 2 * Z0 5 - 2 35 ^ ^ / +";
-		String calcul = "(0-3)+x*2/(Z0-5 )^2^y'";
+		String wanted = "3 _ x 2 * Z0 5 - 2 35 ^ ^ / +";
+		String calcul = "(-3)+x*2/(Z0-5 )^2^y'";
 
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("x", null);
@@ -69,7 +69,7 @@ public class RPNParserTestCase extends TestCase {
 		func.put("exp", 1);
 		func.put("ln", 1);
 
-		RPNParser algo = RPNParserFactory.getParser(false, map);
+		RPNParser algo = RPNParserFactory.getParser(true, map);
 		String resultat = algo.parse(calcul);
 		assertEquals(wanted, resultat);
 		if (logger.isInfoEnabled()) {
@@ -185,6 +185,62 @@ public class RPNParserTestCase extends TestCase {
 			logger.info("With : "
 					+ ComputeUtils.concat(
 							ComputeUtils.displayVariables(variables), ", "));
+			logger.info("");
+		}
+
+		formula = "3^10^2";
+		variables = new HashMap<String, String>();
+
+		actual = FormulaCompute.compute(formula, variables, false);
+
+		expected = "" + Math.pow(3, Math.pow(10, 2));
+		assertEquals(expected, actual);
+
+		if (logger.isInfoEnabled()) {
+			logger.info("Formula : '" + formula + "' = '" + actual + "'");
+			logger.info("With : "
+					+ ComputeUtils.concat(
+							ComputeUtils.displayVariables(variables), ", "));
+			logger.info("");
+		}
+
+		formula = "(3^10)^2";
+		variables = new HashMap<String, String>();
+
+		actual = FormulaCompute.compute(formula, variables, false);
+
+		expected = "" + Math.pow(Math.pow(3, 10), 2);
+		assertEquals(expected, actual);
+
+		if (logger.isInfoEnabled()) {
+			logger.info("Formula : '" + formula + "' = '" + actual + "'");
+			logger.info("With : "
+					+ ComputeUtils.concat(
+							ComputeUtils.displayVariables(variables), ", "));
+			logger.info("");
+		}
+	}
+
+	public void testSub() throws MathematicalAnalysisException {
+		String formula = "(-1) + (-2)";
+		Map<String, String> variables = new HashMap<String, String>();
+
+		String actual = FormulaCompute.compute(formula, variables, true);
+
+		String expected = "-3.0";
+		assertEquals(expected, actual);
+		if (logger.isInfoEnabled()) {
+			logger.info("Formula : '" + formula + "' = '" + actual + "'");
+			logger.info("");
+		}
+
+		formula = "3 +(" + actual+")";
+		actual = FormulaCompute.compute(formula, variables, false);
+
+		expected = "0.0";
+		assertEquals(expected, actual);
+		if (logger.isInfoEnabled()) {
+			logger.info("Formula : '" + formula + "' = '" + actual + "'");
 			logger.info("");
 		}
 

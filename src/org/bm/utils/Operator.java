@@ -21,14 +21,99 @@ import org.bm.analysis.exception.MathematicalAnalysisException;
  * Describe an operator, with its String representation, its precedence, and if
  * it is left-associative or not.
  * 
+ * <table border="1">
+ * <tbody>
+ * <tr>
+ * <td>15</td>
+ * <td>()</td>
+ * <td>Grouping</td>
+ * </tr>
+ * <tr>
+ * <td>14</td>
+ * <td>&nbsp;! &nbsp; ~ &nbsp; - &nbsp; +&nbsp; ^</td>
+ * <td>(most) unary operations</td>
+ * </tr>
+ * <tr>
+ * <td>13</td>
+ * <td>&nbsp; *&nbsp; / &nbsp;&nbsp;%</td>
+ * <td>Multiplication, division, <a title="Modular arithmetic"
+ * href="/wiki/Modular_arithmetic">modulo</a></td>
+ * </tr>
+ * <tr>
+ * <td>12</td>
+ * <td>+ &nbsp; -</td>
+ * <td>Addition and subtraction</td>
+ * </tr>
+ * <tr>
+ * <td>11</td>
+ * <td>&lt;&lt; &nbsp; &gt;&gt;</td>
+ * <td>Bitwise shift left and right</td>
+ * </tr>
+ * <tr>
+ * <td>10</td>
+ * <td>&lt; &nbsp; &lt;= &nbsp; &gt; &nbsp; &gt;=</td>
+ * <td>Comparisons: less-than, ...</td>
+ * </tr>
+ * <tr>
+ * <td>9</td>
+ * <td>== &nbsp;&nbsp;!=</td>
+ * <td>Comparisons: equal and not equal</td>
+ * </tr>
+ * <tr>
+ * <td>8</td>
+ * <td>&amp;</td>
+ * <td>Bitwise AND</td>
+ * </tr>
+ * <tr>
+ * <td>7</td>
+ * <td>^</td>
+ * <td>Bitwise exclusive OR</td>
+ * </tr>
+ * <tr>
+ * <td>6</td>
+ * <td>|</td>
+ * <td>Bitwise inclusive (normal) OR</td>
+ * </tr>
+ * <tr>
+ * <td>5</td>
+ * <td>&amp;&amp;</td>
+ * <td>Logical AND</td>
+ * </tr>
+ * <tr>
+ * <td>4</td>
+ * <td>||</td>
+ * <td>Logical OR</td>
+ * </tr>
+ * <tr>
+ * <td>3</td>
+ * <td>&nbsp;?:</td>
+ * <td><a title="?:" href="/wiki/%3F:">Conditional expression</a> (<a
+ * class="mw-redirect" title="Ternary operator"
+ * href="/wiki/Ternary_operator">ternary operator</a>)</td>
+ * </tr>
+ * <tr>
+ * <td>2</td>
+ * <td>=&nbsp; += &nbsp; -= &nbsp; *= &nbsp; /= &nbsp;&nbsp;%= &nbsp; &amp;=
+ * &nbsp; |= &nbsp; ^= &nbsp; &lt;&lt;= &nbsp; &gt;&gt;=</td>
+ * <td>Assignment operators</td>
+ * </tr>
+ * <tr>
+ * <td>1</td>
+ * <td>,</td>
+ * <td><a title="Comma operator" href="/wiki/Comma_operator">Comma operator</a></td>
+ * </tr>
+ * </tbody>
+ * </table>
+ * 
  * @author morinb
  * 
  */
+
 public enum Operator {
 	/**
 	 * The addition operator.
 	 */
-	ADDITION("+", 10, true, 2, new DelegateFunction(2) {
+	ADDITION("+", 12, true, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {
@@ -67,7 +152,7 @@ public enum Operator {
 	/**
 	 * The substraction operator
 	 */
-	SUBSTRACTION("-", 10, true, 2, new DelegateFunction(2) {
+	SUBSTRACTION("-", 12, true, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {
@@ -104,9 +189,45 @@ public enum Operator {
 		}
 	}),
 	/**
+	 * The substraction operator
+	 */
+	OPPOSITE("_", 14, true, 1, new DelegateFunction(1) {
+		@Override
+		public String compute(String... args)
+				throws MathematicalAnalysisException {
+			if (args == null) {
+				throw new MathematicalAnalysisException(
+						"MINUS: Args must not be null");
+			}
+			if (args.length != nbArgs) {
+				throw new MathematicalAnalysisException(
+						"MINUS: function needs " + nbArgs
+								+ " exactly argument(s).");
+			}
+
+			// As the stack stores in LIFO mode, the 2nd parameter is popped
+			// first.
+			String arg1 = args[0];
+			Double d1 = null;
+			try {
+				d1 = Double.parseDouble(arg1);
+			} catch (NumberFormatException e) {
+				throw new MathematicalAnalysisException(
+						"MINUS: the arguments must be Numbers.", e);
+			}
+
+			Double d = null;
+			if (null != d1 ) {
+				d = -d1;
+			}
+
+			return d.toString();
+		}
+	}),
+	/**
 	 * The multiplication operator.
 	 */
-	MULTIPLICATION("*", 100, true, 2, new DelegateFunction(2) {
+	MULTIPLICATION("*", 13, true, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {
@@ -145,7 +266,7 @@ public enum Operator {
 	/**
 	 * The modulo operator.
 	 */
-	MODULO("%", 100, true, 2, new DelegateFunction(2) {
+	MODULO("%", 13, true, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {
@@ -184,7 +305,7 @@ public enum Operator {
 	/**
 	 * The division operator.
 	 */
-	DIVISION("/", 100, true, 2, new DelegateFunction(2) {
+	DIVISION("/", 13, true, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {
@@ -223,7 +344,7 @@ public enum Operator {
 	/**
 	 * The power operator.
 	 */
-	POWER("^", 1000, false, 2, new DelegateFunction(2) {
+	POWER("^", 14, false, 2, new DelegateFunction(2) {
 		@Override
 		public String compute(String... args)
 				throws MathematicalAnalysisException {

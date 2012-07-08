@@ -57,12 +57,22 @@ public class AnalyzerDefaultImpl implements Analyzer {
 			} else if (ComputeUtils.isOperator(token)) {
 				Operator operator = Operator.get(token);
 				int nbArgs = operator.getNbArgs();
+				
+				if(Operator.SUBSTRACTION.equals(operator) && stack.size() == Operator.OPPOSITE.getNbArgs()) {
+					// So we've got a "-", but with only 1 argument, so it means it's not the substraction operator but the minus one.
+					operator = Operator.OPPOSITE;
+					nbArgs = Operator.OPPOSITE.getNbArgs();
+				}
+
 
 				if (stack.size() < nbArgs) {
 					throw new MathematicalAnalysisException("The operator "
 							+ operator.getValue()
 							+ " needs more arguments than the ones supplied.");
-				}
+				} 
+				
+				
+				
 				String[] args = new String[nbArgs];
 				for (int i = 0; i < nbArgs; i++) {
 					args[i] = stack.pop();
