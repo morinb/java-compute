@@ -20,7 +20,7 @@ import org.bm.analysis.exception.MathematicalAnalysisException;
  * @author morinb
  */
 public abstract class DelegateFunction {
-	protected int nbArgs;
+	protected final int nbArgs;
 
 	public DelegateFunction(int nbArgs) {
 		super();

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
+import org.bm.analysis.exception.MathematicalAnalysisException;
 import org.bm.parser.RPNParser;
 import org.bm.utils.ComputeUtils;
 import org.bm.utils.Operator;
@@ -46,10 +47,6 @@ public class SYAlgo implements RPNParser {
     public SYAlgo(boolean enableLogging, Map<String, String> variables) {
         this.enableLogging = enableLogging;
         this.variables = variables;
-        init();
-    }
-
-    private void init() {
     }
 
     /*
@@ -58,7 +55,7 @@ public class SYAlgo implements RPNParser {
      * @see org.bm.Parser#parse(java.lang.String)
      */
     @Override
-    public String parse(String formula) {
+    public List<String> parse(String formula) throws MathematicalAnalysisException {
         if (enableLogging) {
             if (logger.isInfoEnabled()) {
                 log("Formula : " + formula);
@@ -66,8 +63,8 @@ public class SYAlgo implements RPNParser {
         }
         formula = format(formula);
         log("Formatted formula : " + formula);
-        List<String> outputQueue = new LinkedList<String>();
-        Deque<String> stack = new LinkedList<String>();
+        List<String> outputQueue = new LinkedList<>();
+        Deque<String> stack = new LinkedList<>();
 
         StringTokenizer st = new StringTokenizer(formula, " ");
         String[] tokens = new String[st.countTokens()];
@@ -326,12 +323,11 @@ public class SYAlgo implements RPNParser {
      *            the operator stack
      * @return a RPN notation String of the formula.
      */
-    private String analyze(String[] tokens, List<String> queue, Deque<String> stack) {
-        StringBuilder rpnBuffer = new StringBuilder();
+    private List<String> analyze(String[] tokens, List<String> queue, Deque<String> stack) throws MathematicalAnalysisException {
         String lastToken = null;
 
         for (String token : tokens) {
-            log("Treatement of token '" + token + "'.");
+            log("Treatment of token '" + token + "'.");
             //log("Last token : "+lastToken);
 
             if (isNumber(token)) {
@@ -423,7 +419,7 @@ public class SYAlgo implements RPNParser {
                     queue.add(pop);
                     if (stack.isEmpty()) {
                         // Erreur
-                        return "Erreur A : parenthesis problem.";
+                        throw new MathematicalAnalysisException("Erreur A : parenthesis problem.");
                     }
                 }
                 lastToken = token;
@@ -464,27 +460,19 @@ public class SYAlgo implements RPNParser {
                 queue.add(token);
             }
             lastToken = token;
-            continue;
         }
 
         log("No more token to read.");
         while (!stack.isEmpty()) {
             if ("(".equals(stack.peek())) {
-                return "Erreur C : probleme de parentheses.";
+                throw new MathematicalAnalysisException("Erreur C : probleme de parentheses.");
             }
             String pop = stack.pop();
             log("Popping " + pop + " from the stack to the queue.");
             queue.add(pop);
         }
 
-        for (int i = 0; i < queue.size(); i++) {
-            rpnBuffer.append(queue.get(i));
-            rpnBuffer.append(' ');
-        }
-        String retour = rpnBuffer.toString().trim();
-        log(retour);
-        return retour;
-
+        return queue;
     }
 
     private void log(String message) {
@@ -504,7 +492,7 @@ public class SYAlgo implements RPNParser {
     }
 
     private boolean isNumber(String token) {
-        boolean isNumber = false;
+        boolean isNumber;
         try {
             Double.parseDouble(token);
             isNumber = true;

@@ -131,8 +131,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -141,12 +141,9 @@ public enum Operator {
 						"ADDITION: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = d1 + d2;
-			}
+			Double d = d1 + d2;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -170,8 +167,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -180,12 +177,9 @@ public enum Operator {
 						"SUBSTRACTION: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = d1 - d2;
-			}
+			Double d = d1 - d2;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -208,7 +202,7 @@ public enum Operator {
 			// As the stack stores in LIFO mode, the 2nd parameter is popped
 			// first.
 			String arg1 = args[0];
-			Double d1 = null;
+			Double d1;
 			try {
 				d1 = Double.parseDouble(arg1);
 			} catch (NumberFormatException e) {
@@ -216,12 +210,10 @@ public enum Operator {
 						"MINUS: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 ) {
-				d = -d1;
-			}
+			Double d;
+            d = -d1;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -245,8 +237,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -255,12 +247,9 @@ public enum Operator {
 						"MULTIPLICATION: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = d1 * d2;
-			}
+			Double d = d1 * d2;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -284,8 +273,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -294,12 +283,9 @@ public enum Operator {
 						"MODULO: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = d1 % d2;
-			}
+			Double d = d1 % d2;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -323,8 +309,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -333,12 +319,9 @@ public enum Operator {
 						"DIVISION: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = d1 / d2;
-			}
+			Double d = d1 / d2;
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 	/**
@@ -362,8 +345,8 @@ public enum Operator {
 			// first.
 			String arg2 = args[0];
 			String arg1 = args[1];
-			Double d1 = null;
-			Double d2 = null;
+			Double d1;
+			Double d2;
 			try {
 				d1 = Double.parseDouble(arg1);
 				d2 = Double.parseDouble(arg2);
@@ -372,12 +355,10 @@ public enum Operator {
 						"POWER: the arguments must be Numbers.", e);
 			}
 
-			Double d = null;
-			if (null != d1 & null != d2) {
-				d = Math.pow(d1, d2);
-			}
+			Double d;
+            d = Math.pow(d1, d2);
 
-			return d.toString();
+            return d.toString();
 		}
 	});
 
@@ -421,21 +402,21 @@ public enum Operator {
 	public static Operator get(String value) {
 		Operator[] operators = Operator.values();
 
-		for (int i = 0; i < operators.length; i++) {
-			String op = operators[i].value;
-			if (op.equals(value)) {
-				return operators[i];
-			}
-		}
+        for (Operator operator : operators) {
+            String op = operator.value;
+            if (op.equals(value)) {
+                return operator;
+            }
+        }
 
 		return null;
 	}
 
-	private String value;
-	private int precedence;
-	private boolean leftAssociative;
-	private int nbArgs;
-	private DelegateFunction delegate;
+	private final String value;
+	private final int precedence;
+	private final boolean leftAssociative;
+	private final int nbArgs;
+	private final DelegateFunction delegate;
 
 	@Override
 	public String toString() {

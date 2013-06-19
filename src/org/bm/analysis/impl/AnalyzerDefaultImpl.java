@@ -31,7 +31,7 @@ public class AnalyzerDefaultImpl implements Analyzer {
 
 	@Override
 	public String compute(String formula) throws MathematicalAnalysisException {
-		Deque<String> stack = new LinkedList<String>();
+		Deque<String> stack = new LinkedList<>();
 		StringTokenizer st = new StringTokenizer(formula, " ");
 
 		while (st.hasMoreTokens()) {

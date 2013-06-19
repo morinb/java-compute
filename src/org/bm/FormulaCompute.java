@@ -7,6 +7,8 @@ import org.bm.analysis.exception.MathematicalAnalysisException;
 import org.bm.analysis.impl.AnalyzerDefaultImpl;
 import org.bm.parser.RPNParser;
 import org.bm.parser.RPNParserFactory;
+import org.bm.writer.Writer;
+import org.bm.writer.impl.StringWriter;
 
 /**
  * Copyright 2012 B. MORIN
@@ -30,8 +32,9 @@ public class FormulaCompute {
 	public static String compute(String formula, Map<String, String> variables,
 			boolean verbose) throws MathematicalAnalysisException {
 		RPNParser parser = RPNParserFactory.getParser(verbose, variables);
-		Analyzer analyzer = new AnalyzerDefaultImpl();
-		String actual = analyzer.compute(parser.parse(formula));
-		return actual;
+        Writer<String> stringWriter = new StringWriter();
+        Analyzer analyzer = new AnalyzerDefaultImpl();
+
+        return analyzer.compute(stringWriter.write(parser.parse(formula)));
 	}
 }

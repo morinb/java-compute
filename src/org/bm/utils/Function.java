@@ -35,7 +35,7 @@ public enum Function {
 			}
 
 			String arg = args[0];
-			Double d = null;
+			Double d;
 			try {
 				d = Double.parseDouble(arg);
 			} catch (NumberFormatException e) {
@@ -43,11 +43,9 @@ public enum Function {
 						"SQRT: the argument must be a Number.", e);
 			}
 
-			if (null != d) {
-				d = Math.sqrt(d);
-			}
+            d = Math.sqrt(d);
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 
@@ -66,7 +64,7 @@ public enum Function {
 			}
 
 			String arg = args[0];
-			Double d = null;
+			Double d;
 			try {
 				d = Double.parseDouble(arg);
 			} catch (NumberFormatException e) {
@@ -74,11 +72,9 @@ public enum Function {
 						"LOG: the argument must be a Number.", e);
 			}
 
-			if (null != d) {
-				d = Math.log10(d);
-			}
+            d = Math.log10(d);
 
-			return d.toString();
+            return d.toString();
 		}
 	}),
 
@@ -97,7 +93,7 @@ public enum Function {
 			}
 
 			String arg = args[0];
-			Double d = null;
+			Double d;
 			try {
 				d = Double.parseDouble(arg);
 			} catch (NumberFormatException e) {
@@ -105,17 +101,15 @@ public enum Function {
 						"EXP: the argument must be a Number.", e);
 			}
 
-			if (null != d) {
-				d = Math.exp(d);
-			}
+            d = Math.exp(d);
 
-			return d.toString();
+            return d.toString();
 		}
 	}), ;
 
-	private String name;
-	private DelegateFunction delegate;
-	private int nbArgs;
+	private final String name;
+	private final DelegateFunction delegate;
+	private final int nbArgs;
 
 	private Function(String name, int nbArgs, DelegateFunction function) {
 		this.name = name;
@@ -131,19 +125,11 @@ public enum Function {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getNbArgs() {
+    public int getNbArgs() {
 		return nbArgs;
 	}
 
-	public void setNbArgs(int nbArgs) {
-		this.nbArgs = nbArgs;
-	}
-
-	@Override
+    @Override
 	public String toString() {
 		return name;
 	}
@@ -159,12 +145,12 @@ public enum Function {
 	public static Function get(String value) {
 		Function[] functions = Function.values();
 
-		for (int i = 0; i < functions.length; i++) {
-			String op = functions[i].name;
-			if (op.equals(value)) {
-				return functions[i];
-			}
-		}
+        for (Function function : functions) {
+            String op = function.name;
+            if (op.equals(value)) {
+                return function;
+            }
+        }
 
 		return null;
 	}
