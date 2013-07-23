@@ -22,18 +22,18 @@ import java.util.List;
  * @author morinb
  */
 public class StringWriter implements Writer<String> {
-    @Override
-    public String write(List<String> tokens) {
-        StringBuilder sb = new StringBuilder();
-        for (String item : tokens) {
-            sb.append(convert(item));
-            sb.append(' ');
-        }
-        return sb.toString().trim();
-    }
+   @Override
+   public String write(List<String> tokens) {
+      StringBuilder sb = new StringBuilder();
+      for (String item : tokens) {
+         sb.append(convert(item));
+         sb.append(' ');
+      }
+      return sb.toString().trim();
+   }
 
-    @Override
-    public String convert(String toConvert) {
-        return toConvert;
-    }
+   @Override
+   public String convert(String toConvert) {
+      return toConvert;
+   }
 }

@@ -20,21 +20,20 @@ import org.bm.analysis.exception.MathematicalAnalysisException;
  * @author morinb
  */
 public abstract class DelegateFunction {
-	protected final int nbArgs;
+   protected final int nbArgs;
 
-	public DelegateFunction(int nbArgs) {
-		super();
-		this.nbArgs = nbArgs;
-	}
+   public DelegateFunction(int nbArgs) {
+      super();
+      this.nbArgs = nbArgs;
+   }
 
-	/**
-	 * Make the computation describe by the implementing class.
-	 * It takes nbArgs arguments defined by the constructor.
-	 * @param args The arguments passed to the function.
-	 * @return The result of the computation.
-	 * @throws MathematicalAnalysisException
-	 */
-	public abstract String compute(String... args)
-			throws MathematicalAnalysisException;
+   /**
+    * Make the computation describe by the implementing class.
+    * It takes nbArgs arguments defined by the constructor.
+    * @param args The arguments passed to the function.
+    * @return The result of the computation.
+    * @throws MathematicalAnalysisException
+    */
+   public abstract String compute(String... args) throws MathematicalAnalysisException;
 
 }

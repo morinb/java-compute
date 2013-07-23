@@ -22,8 +22,7 @@ import org.bm.parser.impl.SYAlgo;
  * @author morinb
  */
 public class RPNParserFactory {
-	public static RPNParser getParser(boolean enableLogging,
-			Map<String, String> variables) {
-		return new SYAlgo(enableLogging, variables);
-	}
+   public static RPNParser getParser(boolean enableLogging, Map<String, String> variables) {
+      return new SYAlgo(enableLogging, variables);
+   }
 }

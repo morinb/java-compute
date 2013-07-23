@@ -20,6 +20,7 @@ import java.util.List;
  * @author morinb
  */
 public interface Writer<T> {
-    T write(List<String> tokens);
-    T convert(String toConvert);
+   T write(List<String> tokens);
+
+   T convert(String toConvert);
 }

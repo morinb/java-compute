@@ -1,5 +1,6 @@
 package org.bm;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.bm.analysis.Analyzer;
@@ -29,12 +30,16 @@ import org.bm.writer.impl.StringWriter;
  */
 public class FormulaCompute {
 
-	public static String compute(String formula, Map<String, String> variables,
-			boolean verbose) throws MathematicalAnalysisException {
-		RPNParser parser = RPNParserFactory.getParser(verbose, variables);
-        Writer<String> stringWriter = new StringWriter();
-        Analyzer analyzer = new AnalyzerDefaultImpl();
+   public static String compute(String formula, Map<String, String> variables, boolean verbose)
+      throws MathematicalAnalysisException {
+      if (null == variables) {
+         variables = new HashMap<>();
+      }
 
-        return analyzer.compute(stringWriter.write(parser.parse(formula)));
-	}
+      RPNParser parser = RPNParserFactory.getParser(verbose, variables);
+      Writer<String> stringWriter = new StringWriter();
+      Analyzer analyzer = new AnalyzerDefaultImpl();
+
+      return analyzer.compute(stringWriter.write(parser.parse(formula)));
+   }
 }

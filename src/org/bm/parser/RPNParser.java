@@ -23,14 +23,14 @@ import java.util.List;
  */
 public interface RPNParser {
 
-	/**
-	 * Translate an infix notation to a postfix notation, also called Reverse
-	 * Polish Notation.
-	 * 
-	 * @param formula
-	 *            in infix notation.
-	 * @return the corresponding postfix notation in form of a list of tokens.
-	 */
-	public abstract List<String> parse(String formula) throws MathematicalAnalysisException;
+   /**
+    * Translate an infix notation to a postfix notation, also called Reverse
+    * Polish Notation.
+    * 
+    * @param formula
+    *            in infix notation.
+    * @return the corresponding postfix notation in form of a list of tokens.
+    */
+   public abstract List<String> parse(String formula) throws MathematicalAnalysisException;
 
 }
