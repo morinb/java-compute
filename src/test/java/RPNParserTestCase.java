@@ -1,8 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
 import org.bm.FormulaCompute;
 import org.bm.analysis.Analyzer;
@@ -15,6 +13,8 @@ import org.bm.utils.Function;
 import org.bm.utils.Operator;
 import org.bm.writer.Writer;
 import org.bm.writer.impl.StringWriter;
+
+import junit.framework.TestCase;
 
 /**
  * Copyright 2012 B. MORIN
