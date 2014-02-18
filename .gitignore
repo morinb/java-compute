@@ -1,6 +1,8 @@
 bin/
-log4j.jar
 /nbproject/private/
 /build/
 .idea/
 *.iml
+.classpath
+.project
+target/
